@@ -47,7 +47,7 @@ export const Input = () => {
         <div className="col-md-5 mt-5">
           <form onSubmit={handleSubmit}>
             <h4>Welcome !</h4>
-            <h2 className="mb-3">Sign in to </h2>
+            <h2 className="mb-3">Sign up to </h2>
             <p>Lorem Ipsum is simply </p>
             <div className="mb-3">
               <label htmlFor="username" className="form-label">
@@ -122,7 +122,7 @@ export const Input = () => {
                Remember me  
               </label>
               <Button children="login">Register</Button>
-              <p className="text-center mt-2">Already have an Account ? <Link to="/login">Login</Link></p>
+              <p className="text-center mt-2">Already have an Account ? <Link to="/">Login</Link></p>
             </div>
           </form>
         </div>
