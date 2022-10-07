@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import small from "../images/small.png";
 import { Button } from "../component/button";
 import { Alert } from "bootstrap";
 import validation from "./validation";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const Login = () => {
@@ -12,6 +12,8 @@ export const Login = () => {
     password: "",
     checked: false,
   });
+
+  const navigate = useNavigate();
 
   const fetch = (e) => {
     e.preventDefault();
@@ -22,8 +24,9 @@ export const Login = () => {
         email: "izhar.himtreasure@gmail.com",
         deviceId: "65145111",
       })
-      .then((result) => {
-        console.log(result);
+      .then((result) => { 
+        console.log(result);  
+        navigate('/banner');
       })
       .catch((error) => {
         console.log(error);

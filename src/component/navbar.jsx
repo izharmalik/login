@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+
+
 export const Navbar = () => {
   return (
     <>
@@ -18,10 +20,9 @@ export const Navbar = () => {
         <li className="nav-item">
           <Link className="nav-link" to="/register">Sign up</Link>
         </li>
-      
       </ul>
       <form className="d-flex" role="search">
-        <input className="form-control mx-2" type="search" placeholder="Search" aria-label="Search"/>
+        <input className="form-control mx-3 px-5" type="search" placeholder="Search" aria-label="Search"/>
         <button className="btn btn-primary"  type="submit">Search</button>
       </form>
     </div>

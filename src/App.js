@@ -4,24 +4,25 @@ import { Input } from "./component/Input";
 import { Login } from "./component/login";
 import { Navbar } from "./component/navbar";
 import  { Banner } from "./component/banner";
+import  { Cards }   from "./component/cards";
  
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 function App() {
-  return (
+  return ( 
+
     <>
-    
        <Navbar /> 
+       <Cards />
       <Routes>
        <Route path="/banner" element={<Banner />} />
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Input />} />
-        <Route path="/api" element={<fetchfile />} /> 
-        
       </Routes>
     </>
+
   );
 }
 
