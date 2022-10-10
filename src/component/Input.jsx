@@ -1,51 +1,75 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import small from "../images/small.png";
 import  { Button }  from "../component/button";
 import validation from "./validation";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 export const Input = () => {
 
-  const [ formdata,setformdata]  = useState({
+  const [ formData,setFormData]  = useState({
     email:"",
     username:"",
     password:"",
-    cpassword:"",
+    confirm_password:"",
     checked:false
   });
 
-  const handleChange = e =>setformdata({...formdata, [e.target.name]: e.target.value });
+  const handleChange = e =>setFormData({...formData, [e.target.name]: e.target.value });
 
   const [errors, setErrors] = useState({
     email:false,
     username:false,
     password:false,
-    cpassword:false,
+    confirm_password:false,
+    checked:false,
   });
 
 
- const onSubmit = e =>setformdata({...formdata, [e.target.name]: e.target.value})
+ const onSubmit = e =>setFormData({...formData, [e.target.name]: e.target.value})
  
  function handleSubmit(e){
   e.preventDefault()
-   console.log(formdata);
-  setformdata({
+   console.log(formData);
+  setFormData({
     email:"",
     username:"",
     password:"",
-    cpassword:"",
+    confirm_password:"",
     checked:false
   });
-  setErrors(validation(formdata));
+  setErrors(validation(formData));
  }
 
+ const Navigate = useNavigate();
 
-  return (
+ const fetch = (e) => {
+   e.preventDefault();
+
+   console.log("first");
+   axios
+    .post("https://test1-login.immunify.me/api/entry/email", {
+      email: "izhar.himtreasure@gmail.com",
+        deviceId: "65145111",
+     })
+     .then((result) => { 
+       console.log(result);  
+       Navigate('/Cards');
+     })
+     .catch((error) => {
+       console.log(error);
+     });
+ };
+
+
+
+  return ( 
+
     <div className="container">
       <div className="row">
         <div className="col-md-5 mt-5">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={fetch}>
             <h4>Welcome !</h4>
             <h2 className="mb-3">Sign up to </h2>
             <p>Lorem Ipsum is simply </p>
@@ -59,7 +83,7 @@ export const Input = () => {
                 name="email"
                 id="email"
                 placeholder="Enter your email"
-                value={formdata.email}
+                value={formData.email}
                 onChange={handleChange}
               />
               {errors.email && <p className="errors text-danger">{errors.email}</p>}
@@ -74,7 +98,7 @@ export const Input = () => {
                 id="username"
                 name="username"
                 placeholder="Enter your user name"
-                value={formdata.username}
+                value={formData.username}
                 onChange={handleChange}
               />
               {errors.username && <p className="errors text-danger">{errors.username}</p>}
@@ -89,7 +113,7 @@ export const Input = () => {
                 className="form-control"
                 placeholder="Enter your Password"
                 id="Password1"
-                value={formdata.password}
+                value={formData.password}
                 onChange={handleChange}
               />
               {errors.password && <p className="errors text-danger">{errors.password}</p>}
@@ -100,23 +124,23 @@ export const Input = () => {
               </label>
               <input
                 type="password"
-                name="cpassword"
+                name="confirm_password"
                 className="form-control"
                 placeholder="Confirm your Password"
                 id="confirm password"
-                value={formdata.cpassword}
+                value={formData.confirm_password}
                 onChange={handleChange}
               />
-              {errors.cpassword && <p className="errors text-danger">{errors.cpassword}</p>}
+              {errors.confirm_password && <p className="errors text-danger">{errors.confirm_password}</p>}
             </div>  
             <div className="mb-3 form-check">
               <input
                 type="checkbox"
                 className="form-check-input"
                 id="exampleCheck1"
-                value={formdata.checked}
-              checked={formdata.checked}
-               onChange={()=>setformdata({...formdata,checked:!formdata.checked})}
+                value={formData.checked}
+              checked={formData.checked}
+               onChange={()=>setFormData({...formData,checked:!formData.checked})}
               />
               <label className="form-check-label" htmlFor="exampleCheck1">
                Remember me  
@@ -132,4 +156,4 @@ export const Input = () => {
       </div>
     </div>
   );
-};
+}

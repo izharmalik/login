@@ -4,16 +4,17 @@ import { Button } from "../component/button";
 import { Alert } from "bootstrap";
 import validation from "./validation";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 
 export const Login = () => {
-  const [formdata, setformdata] = useState({
+  const [FormData, setFormData] = useState({
     username: "",
     password: "",
     checked: false,
   });
 
-  const navigate = useNavigate();
+  const Navigate = useNavigate();
 
   const fetch = (e) => {
     e.preventDefault();
@@ -22,11 +23,11 @@ export const Login = () => {
     axios
       .post("https://test1-login.immunify.me/api/entry/email", {
         email: "izhar.himtreasure@gmail.com",
-        deviceId: "65145111",
+        deviceId: "6514511",
       })
       .then((result) => { 
         console.log(result);  
-        navigate('/banner');
+        Navigate('/banner');
       })
       .catch((error) => {
         console.log(error);
@@ -34,7 +35,7 @@ export const Login = () => {
   };
 
   const handleChange = (e) =>
-    setformdata({ ...formdata, [e.target.name]: e.target.value });
+    setFormData({ ...FormData, [e.target.name]: e.target.value });
 
   const [errors, setErrors] = useState({
     username: false,
@@ -42,18 +43,18 @@ export const Login = () => {
   });
 
   const onSubmit = (e) =>
-    setformdata({ ...formdata, [e.target.name]: e.target.value });
+    setFormData({ ...FormData, [e.target.name]: e.target.value });
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(formdata);
-    setformdata({
+    console.log(FormData);
+    setFormData({
       username: "",
       password: "",
       checked: false,
     });
-    setErrors(validation(formdata));
-  }
+    setErrors(validation(FormData));
+   }
 
   return (
     <div className="container">
@@ -73,7 +74,7 @@ export const Login = () => {
                 id="username"
                 name="username"
                 placeholder="Enter your user name"
-                value={formdata.username}
+                value={FormData.username}
                 onChange={handleChange}
               />
               {errors.username && (
@@ -90,7 +91,7 @@ export const Login = () => {
                 className="form-control"
                 placeholder="Enter your Password"
                 id="Password1"
-                value={formdata.password}
+                value={FormData.password}
                 onChange={handleChange}
               />
               {errors.password && (
@@ -102,10 +103,10 @@ export const Login = () => {
                 type="checkbox"
                 className="form-check-input"
                 id="exampleCheck1"
-                value={formdata.checked}
-                checked={formdata.checked}
+                value={FormData.checked}
+                checked={FormData.checked}
                 onChange={() =>
-                  setformdata({ ...formdata, checked: !formdata.checked })
+                  setFormData({ ...FormData, checked: !FormData.checked })
                 }
               />
               <label className="form-check-label" htmlFor="exampleCheck1">
