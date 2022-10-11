@@ -4,38 +4,17 @@ import { Button } from "../component/button";
 import { Alert } from "bootstrap";
 import validation from "./validation";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import axios from "axios";
 
 export const Login = () => {
-  const [FormData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     username: "",
     password: "",
     checked: false,
   });
 
-  const Navigate = useNavigate();
-
-  const fetch = (e) => {
-    e.preventDefault();
-
-    console.log("first");
-    axios
-      .post("https://test1-login.immunify.me/api/entry/email", {
-        email: "izhar.himtreasure@gmail.com",
-        deviceId: "6514511",
-      })
-      .then((result) => { 
-        console.log(result);  
-        Navigate('/banner');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const handleChange = (e) =>
-    setFormData({ ...FormData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const [errors, setErrors] = useState({
     username: false,
@@ -43,18 +22,53 @@ export const Login = () => {
   });
 
   const onSubmit = (e) =>
-    setFormData({ ...FormData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(FormData);
+    console.log(formData);
     setFormData({
       username: "",
       password: "",
       checked: false,
     });
-    setErrors(validation(FormData));
-   }
+    setErrors(validation(formData));
+  }
+
+  const Navigate = useNavigate();
+
+  const fetch = (e) => {
+    e.preventDefault();
+
+    axios
+      .post(
+        "http://localhost:4000/api/users/register",
+        {
+          name: formData.username,
+          password: formData.password,
+        },
+
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+
+      .then((result) => {
+        console.log(result);
+
+        setFormData({
+          name: "",
+          password: "",
+        });
+
+        localStorage.setItem("user", JSON.stringify(result.data));
+        Navigate("/Banner");
+      })
+      
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="container">
@@ -74,7 +88,7 @@ export const Login = () => {
                 id="username"
                 name="username"
                 placeholder="Enter your user name"
-                value={FormData.username}
+                value={formData.username}
                 onChange={handleChange}
               />
               {errors.username && (
@@ -91,7 +105,7 @@ export const Login = () => {
                 className="form-control"
                 placeholder="Enter your Password"
                 id="Password1"
-                value={FormData.password}
+                value={formData.password}
                 onChange={handleChange}
               />
               {errors.password && (
@@ -103,10 +117,10 @@ export const Login = () => {
                 type="checkbox"
                 className="form-check-input"
                 id="exampleCheck1"
-                value={FormData.checked}
-                checked={FormData.checked}
+                value={formData.checked}
+                checked={formData.checked}
                 onChange={() =>
-                  setFormData({ ...FormData, checked: !FormData.checked })
+                  setFormData({ ...formData, checked: !formData.checked })
                 }
               />
               <label className="form-check-label" htmlFor="exampleCheck1">

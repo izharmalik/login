@@ -6,13 +6,13 @@ import { Navbar } from "./component/navbar";
 import  { Banner } from "./component/banner";
 import  { Cards }   from "./component/cards";
 
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 
 function App() {
   return ( 
-
     <>
        <Navbar />
       <Routes>

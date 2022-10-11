@@ -1,71 +1,85 @@
 import React, { useEffect, useState } from "react";
 import small from "../images/small.png";
-import  { Button }  from "../component/button";
+import { Button } from "../component/button";
 import validation from "./validation";
-import { Link ,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
 export const Input = () => {
-
-  const [ formData,setFormData]  = useState({
-    email:"",
-    username:"",
-    password:"",
-    confirm_password:"",
-    checked:false
+  const [formData, setFormData] = useState({
+    email: "",
+    username: "",
+    password: "",
+    confirm_password: "",
+    checked: false,
   });
 
-  const handleChange = e =>setFormData({...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const [errors, setErrors] = useState({
-    email:false,
-    username:false,
-    password:false,
-    confirm_password:false,
-    checked:false,
+    email: false,
+    username: false,
+    password: false,
+    confirm_password: false,
+    checked: false,
   });
 
+  const onSubmit = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
- const onSubmit = e =>setFormData({...formData, [e.target.name]: e.target.value})
- 
- function handleSubmit(e){
-  e.preventDefault()
-   console.log(formData);
-  setFormData({
-    email:"",
-    username:"",
-    password:"",
-    confirm_password:"",
-    checked:false
-  });
-  setErrors(validation(formData));
- }
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(formData);
+    setFormData({
+      email: "",
+      username: "",
+      password: "",
+      confirm_password: "",
+      checked: false,
+    });
+    setErrors(validation(formData));
+  }
 
- const Navigate = useNavigate();
+  const Navigate = useNavigate();
 
- const fetch = (e) => {
-   e.preventDefault();
+  const fetch = (e) => {
+    e.preventDefault();
+    
+    axios
+      .post(
+        "http://localhost:4000/api/users/register",
+        {
+          name: formData.username,
+          email: formData.email,
+          password: formData.password,
+          password2: formData.confirm_password,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
 
-   console.log("first");
-   axios
-    .post("https://test1-login.immunify.me/api/entry/email", {
-      email: "izhar.himtreasure@gmail.com",
-        deviceId: "65145111",
-     })
-     .then((result) => { 
-       console.log(result);  
-       Navigate('/Cards');
-     })
-     .catch((error) => {
-       console.log(error);
-     });
- };
+      .then((result) => {
+        console.log(result);
 
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+        });
 
+        localStorage.setItem("user", JSON.stringify(result.data));
+        Navigate("/Cards");
+      })
 
-  return ( 
+      .catch((error) => {
+        console.log(error);
+      });
 
+  };
+
+  return (
     <div className="container">
       <div className="row">
         <div className="col-md-5 mt-5">
@@ -86,7 +100,9 @@ export const Input = () => {
                 value={formData.email}
                 onChange={handleChange}
               />
-              {errors.email && <p className="errors text-danger">{errors.email}</p>}
+              {errors.email && (
+                <p className="errors text-danger">{errors.email}</p>
+              )}
             </div>
             <div className="mb-3">
               <label htmlFor="username" className="form-label">
@@ -101,7 +117,9 @@ export const Input = () => {
                 value={formData.username}
                 onChange={handleChange}
               />
-              {errors.username && <p className="errors text-danger">{errors.username}</p>}
+              {errors.username && (
+                <p className="errors text-danger">{errors.username}</p>
+              )}
             </div>
             <div className="mb-3">
               <label htmlFor="password" className="form-label">
@@ -116,11 +134,13 @@ export const Input = () => {
                 value={formData.password}
                 onChange={handleChange}
               />
-              {errors.password && <p className="errors text-danger">{errors.password}</p>}
+              {errors.password && (
+                <p className="errors text-danger">{errors.password}</p>
+              )}
             </div>
             <div className="mb-3">
               <label htmlFor="password" className="form-label">
-              Confirm Password
+                Confirm Password
               </label>
               <input
                 type="password"
@@ -131,22 +151,28 @@ export const Input = () => {
                 value={formData.confirm_password}
                 onChange={handleChange}
               />
-              {errors.confirm_password && <p className="errors text-danger">{errors.confirm_password}</p>}
-            </div>  
+              {errors.confirm_password && (
+                <p className="errors text-danger">{errors.confirm_password}</p>
+              )}
+            </div>
             <div className="mb-3 form-check">
               <input
                 type="checkbox"
                 className="form-check-input"
                 id="exampleCheck1"
                 value={formData.checked}
-              checked={formData.checked}
-               onChange={()=>setFormData({...formData,checked:!formData.checked})}
+                checked={formData.checked}
+                onChange={() =>
+                  setFormData({ ...formData, checked: !formData.checked })
+                }
               />
               <label className="form-check-label" htmlFor="exampleCheck1">
-               Remember me  
+                Remember me
               </label>
               <Button children="login">Register</Button>
-              <p className="text-center mt-2">Already have an Account ? <Link to="/">Login</Link></p>
+              <p className="text-center mt-2">
+                Already have an Account ? <Link to="/">Login</Link>
+              </p>
             </div>
           </form>
         </div>
@@ -156,4 +182,4 @@ export const Input = () => {
       </div>
     </div>
   );
-}
+};

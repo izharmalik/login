@@ -1,13 +1,14 @@
 const validation = (formData) => {
   let errors = {};
   if (!formData.email) {
-    errors.email = "username is required.";
+    errors.email = "email is required.";
   }
   if (!formData.username) {
     errors.username = "username is required.";
   }
   if (formData.password == ""){
-  alert ("Please enter Password");}
+  alert ("Please enter Password");
+}
     
    else if (formData.password == ""){
    alert ("Please enter confirm password");
